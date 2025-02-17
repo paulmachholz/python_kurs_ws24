@@ -35,9 +35,13 @@ def MaxMap(freqMap):
 
 
 def ImprovedFrequentWords(text, k):
-    freqMap = FrequenceTable(text,k)
-    maxCount = MaxMap(freqMap)
-    FrequentPattern = [pattern for pattern, count in freqMap.items() if count == maxCount]
+    freqMap = FrequenceTable(text,k)  #Build table
+    maxCount = MaxMap(freqMap)  #find max counts
+    FrequentPattern = [pattern for pattern, count in freqMap.items() if count == maxCount] #collect patterns
 
     return FrequentPattern
 
+def Complementreverse(Pattern):
+    complement = {'a':'t', 't':'a', 'c':'g', 'g':'c'} #dictionary to map complement
+    Patternrc =''.join(complement[base] for base in reversed(Pattern))  #complement each n and reverse result
+    return Patternrc

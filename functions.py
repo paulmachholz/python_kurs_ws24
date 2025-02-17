@@ -22,7 +22,7 @@ def FrequentWords(text, k):
 def FrequenceTable(text, k):
     freqMap = {}
     for i in range(len(text) - k + 1):
-        Pattern = text[i:i:k]
+        Pattern = text[i:i+k]
         if Pattern in freqMap:
             freqMap[Pattern] += 1
         else:

@@ -30,10 +30,13 @@ def FrequenceTable(text, k):
 
     return freqMap
 
+def MaxMap(freqMap):
+    return max(freqMap.values()) if freqMap else 0 
+
 
 def ImprovedFrequentWords(text, k):
     freqMap = FrequenceTable(text,k)
-    maxCount = max(freqMap.values())
+    maxCount = MaxMap(freqMap)
     FrequentPattern = [pattern for pattern, count in freqMap.items() if count == maxCount]
 
     return FrequentPattern

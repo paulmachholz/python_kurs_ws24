@@ -18,3 +18,23 @@ def FrequentWords(text, k):
             FrequentPatterns.add(text[i:i+k]) #add k-mer to set
 
     return list(FrequentPatterns)
+
+def FrequenceTable(text, k):
+    freqMap = {}
+    for i in range(len(text) - k + 1):
+        Pattern = text[i:i:k]
+        if Pattern in freqMap:
+            freqMap[Pattern] += 1
+        else:
+            freqMap[Pattern] = 1
+
+    return freqMap
+
+
+def ImprovedFrequentWords(text, k):
+    freqMap = FrequenceTable(text,k)
+    maxCount = max(freqMap.values())
+    FrequentPattern = [pattern for pattern, count in freqMap.items() if count == maxCount]
+
+    return FrequentPattern
+

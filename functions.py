@@ -45,3 +45,12 @@ def Complementreverse(Pattern):
     complement = {'a':'t', 't':'a', 'c':'g', 'g':'c'} #dictionary to map complement
     Patternrc =''.join(complement[base] for base in reversed(Pattern))  #complement each n and reverse result
     return Patternrc
+
+
+def patternmatching(Pattern, Genome):
+    position = []
+    for i in range(len(Genome) - len(Pattern) + 1):
+        if Genome[i:i+len(Pattern)] == Pattern:
+            position.append(i)
+
+    return position

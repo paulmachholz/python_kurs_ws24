@@ -53,4 +53,9 @@ def patternmatching(Pattern, Genome):
         if Genome[i:i+len(Pattern)] == Pattern:
             position.append(i)
 
+    reverse_complement = Complementreverse(Pattern)
+    for i in range(len(Genome) - len(Pattern) + 1):
+        if Genome[i:i+len(Pattern)] == reverse_complement:
+            position.append(i)
+            
     return position

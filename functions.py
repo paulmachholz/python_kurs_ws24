@@ -99,3 +99,32 @@ def patternmatching(Pattern: str, Genome: str) -> list[int]:
 
 # day 2
 
+def FindClumps(genome: str, k: int, L: int, t: int) -> list[str]:
+    """ Find all k-mers that form (L, t)-clumps in a given genome
+    genome : str -> DNA sequece
+    k : str -> length of k-mer to search for
+    L : int -> window length in which to search for clumps
+    t : int -> min. number of times a k-mer has to appear in the window
+
+    Returns -> List of distinct k-mers that form (L, t)-clumps.
+    """
+    patterns = set()
+    n = len(genome)
+
+    for i in range(n - L + 1):
+        window = genome[i:i + L]
+        freqMap = FrequenceTable(window, k)
+        for kmer, count in freqMap.items():
+            if count >= t:
+                patterns.add(kmer)
+    return list(patterns)
+
+def read_genome_file(filename: str) -> str:
+    """Reads a genome fromn .txt file and returns it as a single string
+    filename : str -> path to genome file
+
+    Returns -> sequence as a single string
+    """
+    with open(filename, 'r') as file:
+        genome = file.read().replace('\n', '').replace('\r', '')
+    return genome

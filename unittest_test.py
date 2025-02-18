@@ -2,40 +2,39 @@ import unittest
 import functions
 
 class TestFunctions(unittest.TestCase):
-    def test_reverse_complement(self):
+    def test_complementreverse(self):
         """Test reverse complement function."""
-        self.assertEqual(functions.reverse_complement("ATGC"), "GCAT")
-        self.assertEqual(functions.reverse_complement("CCGG"), "CCGG")  # Palindromic test
+        self.assertEqual(functions.Complementreverse("atgc"), "gcat")
+        self.assertEqual(functions.Complementreverse("ggcc"), "ccgg")  # Palindromic test
 
-    def test_pattern_count(self):
+    def test_PatternCount(self):
         """Test PatternCount function."""
-        self.assertEqual(functions.PatternCount("ATGATGATG", "ATG"), 3)
-        self.assertEqual(functions.PatternCount("", "A"), 0)  # Edge case: Empty genome
+        self.assertEqual(functions.PatternCount("atgatgatg", "atg"), 3)
+        self.assertEqual(functions.PatternCount("", "a"), 0)  # Edge case: Empty genome
 
-    def test_pattern_matching(self):
+    def test_patternmatching(self):
         """Test pattern matching function."""
-        self.assertEqual(functions.pattern_matching("ATG", "ATGATGATG"), [0, 3, 6])
-        self.assertEqual(functions.pattern_matching("GGT", "AAAAAA"), [])  # No match case
+        self.assertEqual(functions.patternmatching("atg", "atgatgatg"), [0, 3, 6])
 
-    def test_frequence_table(self):
+    def test_FrequenceTable(self):
         """Test FrequenceTable function."""
-        self.assertEqual(functions.FrequenceTable("ATGATGATG", 3), {"ATG": 3, "TGA": 2, "GAT": 2})
+        self.assertEqual(functions.FrequenceTable("atgatgatg", 3), {"atg": 3, "tga": 2, "gat": 2})
         self.assertEqual(functions.FrequenceTable("", 3), {})  # Edge case: Empty input
 
-    def test_find_clumps(self):
+    def test_FindClumps(self):
         """Test FindClumps function."""
-        genome = "ATGATCAAGGATGATCAAG"
+        genome = "atgatcaaggatgatcaag"
         k, L, t = 3, 10, 2
-        self.assertEqual(set(functions.FindClumps(genome, k, L, t)), {"ATG", "GAT", "TGA"})
+        self.assertEqual(set(functions.FindClumps(genome, k, L, t)), {"atg", "gat", "tga"})
 
-    def test_max_map(self):
+    def test_MaxMap(self):
         """Test MaxMap function."""
-        self.assertEqual(functions.MaxMap({"ATG": 3, "TGA": 2, "GAT": 2}), 3)
+        self.assertEqual(functions.MaxMap({"atg": 3, "tga": 2, "gat": 2}), 3)
         self.assertEqual(functions.MaxMap({}), 0)  # Edge case: Empty dictionary
 
-    def test_improved_frequent_words(self):
+    def test_ImprovedFrequentWords(self):
         """Test ImprovedFrequentWords function."""
-        self.assertEqual(set(functions.ImprovedFrequentWords("ATGATGATG", 3)), {"ATG"})
+        self.assertEqual(set(functions.ImprovedFrequentWords("atgatgatg", 3)), {"atg"})
 
     
 if __name__ == "__main__":

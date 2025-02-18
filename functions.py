@@ -128,3 +128,15 @@ def read_genome_file(filename: str) -> str:
     with open(filename, 'r') as file:
         genome = file.read().replace('\n', '').replace('\r', '')
     return genome
+
+def print_clumps(clumps: list[str], per_line: int = 10) -> None:
+    """
+    Prints k-mers found in clumps in a nicely formatted way.
+
+    Args:
+        clumps (list[str]): List of k-mers found as clumps.
+        per_line (int): Number of k-mers to print per line (default: 10).
+    """
+    print("\nFound k-mers forming clumps:\n")
+    for i in range(0, len(clumps), per_line):
+        print(" ".join(clumps[i:i+per_line]))

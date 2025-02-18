@@ -52,30 +52,12 @@ def FrequenceTable(text, k):
 
 
 def MaxMap(freqMap):
-     """
-    Finds the maximum frequency value in a given k-mer frequency table.
-
-    Args:
-        freqMap (dict): A dictionary containing k-mers as keys and their count as values.
-
-    Returns:
-        int: The highest frequency found in the frequency table.
-    """
+    
     return max(freqMap.values()) if freqMap else 0 
 
 
 
 def ImprovedFrequentWords(text, k):
-     """
-    Finds the most frequent k-mers in a given DNA sequence.
-
-    Args:
-        text (str): The DNA sequence.
-        k (int): The length of k-mers to analyze.
-
-    Returns:
-        list: A list of the most frequent k-mers.
-    """
     freqMap = FrequenceTable(text,k)  #Build table
     maxCount = MaxMap(freqMap)  #find max counts
     FrequentPattern = [pattern for pattern, count in freqMap.items() if count == maxCount] #collect patterns

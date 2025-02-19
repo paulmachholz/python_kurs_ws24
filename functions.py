@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from Bio import SeqIO
 
 def PatternCount(a: str, b: str) -> int:
     """Counts occurences of a pattern in a string
@@ -169,23 +170,40 @@ def plot_skew(genome: str, output_file: str):
     """Creates a skew diagram and saves it as a PNG file."""
     # Calculate the skew array
     skew_array = skew_compute(genome)
-    
     # Plot the skew values
     plt.figure(figsize=(10, 6))
     plt.plot(range(len(skew_array)), skew_array, label="Skew", color='blue')
-    
     # Mark minimum skew positions
     min_positions = skew_minimum(genome)
     plt.scatter(min_positions, [skew_array[i] for i in min_positions], color='red', zorder=5, label="Min Skew Positions")
-    
     # Labels and title
     plt.title("Skew Diagram")
     plt.xlabel("Position in Genome")
     plt.ylabel("Skew Value")
     plt.legend(loc="upper right")
-    
     # Save the plot to a PNG file
     plt.savefig(output_file)
     plt.close()
     print(f"Skew diagram saved to {output_file}")
 
+def plot_skew_pdf(fasta_file: str, output_pdf: str):
+    """Creates skew diagrams for all sequences in the FASTA file and saves them in a single PDF."""
+    from matplotlib.backends.backend_pdf import PdfPages
+    
+    # Create a PdfPages object to save the plots to a PDF
+    with PdfPages(output_pdf) as pdf:
+        # Parse the FASTA file
+        for record in SeqIO.parse(fasta_file, "fasta"):
+            genome = str(record.seq)  # Get the genome as a string
+            skew_array = skew_compute(genome)
+            plt.figure(figsize=(10, 6))
+            plt.plot(range(len(skew_array)), skew_array, label="Skew", color='blue')
+            min_positions = skew_minimum(genome)
+            plt.scatter(min_positions, [skew_array[i] for i in min_positions], color='red', zorder=5, label="Min Skew Positions")
+            plt.title(f"Skew Diagram for {record.id}")
+            plt.xlabel("Position in Genome")
+            plt.ylabel("Skew Value")
+            plt.legend(loc="upper right")
+            pdf.savefig()
+            plt.close()
+    print(f"Skew diagrams saved to {output_pdf}")

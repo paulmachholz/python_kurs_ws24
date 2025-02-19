@@ -111,12 +111,12 @@ def FindClumps(genome: str, k: int, L: int, t: int) -> list[str]:
     patterns = set()
     n = len(genome)
 
-    for i in range(n - L + 1):
+    for i in range(n - L + 1):          #window slides over genome
         window = genome[i:i + L]
         freqMap = FrequenceTable(window, k)
-        for kmer, count in freqMap.items():
+        for kmer, count in freqMap.items(): #if k-mer inside window is there t-times
             if count >= t:
-                patterns.add(kmer)
+                patterns.add(kmer)          #it gets added to a list
     return list(patterns)
 
 def read_genome_file(filename: str) -> str:
@@ -126,7 +126,7 @@ def read_genome_file(filename: str) -> str:
     Returns -> sequence as a single string
     """
     with open(filename, 'r') as file:
-        genome = file.read().replace('\n', '').replace('\r', '')
+        genome = file.read().replace('\n', '').replace('\r', '')  #opens text file and deletes empty lines or spaces left -> important for reading text documents created on dos to unix for example
     return genome
 
 def print_clumps(clumps: list[str], per_line: int = 10) -> None:
@@ -138,5 +138,7 @@ def print_clumps(clumps: list[str], per_line: int = 10) -> None:
         per_line (int): Number of k-mers to print per line (default: 10).
     """
     print("\nFound k-mers forming clumps:\n")
-    for i in range(0, len(clumps), per_line):
+    for i in range(0, len(clumps), per_line):  #lists the found k-mers in lines of 10
         print(" ".join(clumps[i:i+per_line]))
+
+        

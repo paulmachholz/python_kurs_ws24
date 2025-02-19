@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 def PatternCount(a: str, b: str) -> int:
     """Counts occurences of a pattern in a string
     Parameters:
@@ -11,8 +13,7 @@ def PatternCount(a: str, b: str) -> int:
     for i in range(len(a) - len(b) + 1):
         if a[i:i+len(b)] == b:
             count += 1
-    return count
-        
+    return count       
 
 def FrequentWords(text: str, k: str) -> list[str]:
     """Find the most frequent k-mers in a given DNA sequence
@@ -28,7 +29,7 @@ def FrequentWords(text: str, k: str) -> list[str]:
         Pattern = text[i:i+k]   #extract k-mers
         count.append(PatternCount(text, Pattern)) #stores k-mer in arrray
     maxCount = max(count) #finds maximum count
-    for i in range(len(text) - k + 1): 
+    for i in range(len(text) - k + 1):
         if count[i] == maxCount:     #identifying highest count
             FrequentPatterns.add(text[i:i+k]) #add k-mer to set
 
@@ -62,7 +63,6 @@ def MaxMap(freqMap: dict[str, int]) -> int:
     """
     return max(freqMap.values()) if freqMap else 0 
 
-
 def ImprovedFrequentWords(text: str, k: int) -> list[str]:
     freqMap = FrequenceTable(text,k)  #Build table
     maxCount = MaxMap(freqMap)  #find max counts
@@ -70,13 +70,11 @@ def ImprovedFrequentWords(text: str, k: int) -> list[str]:
 
     return FrequentPattern
 
-
 def Complementreverse(Pattern: str) -> str:
    
     complement = {'a':'t', 't':'a', 'c':'g', 'g':'c'} #dictionary to map complement
     Patternrc =''.join(complement[base] for base in reversed(Pattern))  #complement each n and reverse result
     return Patternrc
-
 
 def patternmatching(Pattern: str, Genome: str) -> list[int]:
     """Finds all starting positions of a given pattern within a sequence
@@ -141,4 +139,53 @@ def print_clumps(clumps: list[str], per_line: int = 10) -> None:
     for i in range(0, len(clumps), per_line):  #lists the found k-mers in lines of 10
         print(" ".join(clumps[i:i+per_line]))
 
-        
+def skew_compute(genome: str) -> list[int]:
+    """Computes skew array for given genome
+
+    genome : str -> DNA sequence
+
+    Returns -> List of skew values at each position
+    """
+    skew = [0]
+    for base in genome:
+        if base == "G":
+            skew.append(skew[-1] + 1)
+        elif base == "C":
+            skew.append(skew[-1] - 1)
+        else:
+            skew.append(skew[-1])
+    return skew
+
+def skew_minimum(genome: str) -> list[int]:
+    """ Finds all positions where the skew is at minimum value
+    genome : str -> DNA sequence
+    Returns -> List of positions with minimal skew
+    """
+    skew_array = skew_compute(genome)
+    min_skew = min(skew_array)
+    return [i for i, value in enumerate(skew_array) if value == min_skew]
+    
+def plot_skew(genome: str, output_file: str):
+    """Creates a skew diagram and saves it as a PNG file."""
+    # Calculate the skew array
+    skew_array = skew_compute(genome)
+    
+    # Plot the skew values
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(len(skew_array)), skew_array, label="Skew", color='blue')
+    
+    # Mark minimum skew positions
+    min_positions = skew_minimum(genome)
+    plt.scatter(min_positions, [skew_array[i] for i in min_positions], color='red', zorder=5, label="Min Skew Positions")
+    
+    # Labels and title
+    plt.title("Skew Diagram")
+    plt.xlabel("Position in Genome")
+    plt.ylabel("Skew Value")
+    plt.legend(loc="upper right")
+    
+    # Save the plot to a PNG file
+    plt.savefig(output_file)
+    plt.close()
+    print(f"Skew diagram saved to {output_file}")
+

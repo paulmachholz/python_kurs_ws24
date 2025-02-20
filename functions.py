@@ -140,6 +140,8 @@ def print_clumps(clumps: list[str], per_line: int = 10) -> None:
     for i in range(0, len(clumps), per_line):  #lists the found k-mers in lines of 10
         print(" ".join(clumps[i:i+per_line]))
 
+#day 3
+
 def skew_compute(genome: str) -> list[int]:
     """Computes skew array for given genome
 
@@ -207,3 +209,17 @@ def plot_skew_pdf(fasta_file: str, output_pdf: str):
             pdf.savefig()
             plt.close()
     print(f"Skew diagrams saved to {output_pdf}")
+
+# day 4
+
+def hamming_distance(p: str, q: str) -> int:
+    """Computes the hamming distance between two equal length strings
+    p : str -> first dna sequence
+    q: str -> second dna sequence
+    Returns -> number of differing positions between two sequences
+    """
+    if len(p) !=len(q):
+        raise ValueError("Strings must be equal length")
+    
+    return sum(1 for i in range(len(p)) if p[i] != q[i])
+

@@ -223,3 +223,19 @@ def hamming_distance(p: str, q: str) -> int:
     
     return sum(1 for i in range(len(p)) if p[i] != q[i])
 
+def approximate_pattern_matching(pattern: str, text: str, d: int) -> list[int]:
+    """ Finds all positions where the pattern appears in the text with at most d mismatches
+    pattern : str -> k-mer pattern to search for
+    text : str -> dna sequnce
+    d : int -> max. number of mismatches allowed
+    Returns -> a list of starting indices where pattenr appears with at most d-mismatches
+    """
+    k = len(pattern)
+    positions = [] #list to store positions
+    for i in range(len(text) - k + 1):
+        substring = text[i:i + k]
+        if hamming_distance(pattern, substring) <= d:
+            positions.append(i)
+
+    return positions
+
